@@ -3,17 +3,46 @@ import {
   createBrowserRouter,
   RouterProvider,
   Route,
+  Outlet,
 } from "react-router-dom";
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './pages/Home'
 import Login from './pages/Login';
 import Register from './pages/Register';
 import WritePost from './pages/WritePost';
 import SinglePost from './pages/SinglePost';
+import './style.scss';
+
+const Layout = () => {
+  return(
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
+  );
+};
 
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div>Home page</div>
+    element: <Layout />,
+    children: [
+      {
+        path:'/',
+        element:<Home />
+      },
+      {  
+        path:'/post/:id',
+        element:<SinglePost />
+      },
+      {
+        path:'/writepost',
+        element:<WritePost />
+      },
+    ]
   },
   {
     path: '/register',
@@ -23,21 +52,17 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login/>,
   },
-  {
-    path: '/writePost',
-    element: <WritePost/>,
-  },
-  {
-    path: '/singlePost',
-    element: <SinglePost/>,
-  },
 ]);
 
 function App() {
   return (
-    <div className="App">
-      <RouterProvider router={router}/>
-      <h2>David's mongo Blog</h2>
+    <div className="app">
+      <div className='container'>
+        <RouterProvider router={router}/>
+      </div>
+
+    
+      {/* <h2>TITLE</h2>
       <div className='form'>
         <label>Title</label>
         <input type="text" name="movieName" />
@@ -45,7 +70,7 @@ function App() {
         <input type="text" name="review" />
 
         <button>Submit</button>
-      </div>
+      </div> */}
     </div>
   );
 }
